@@ -3,15 +3,15 @@
 <configuration>
 
     <settings>
-        <!-- Globally enables or disables any caches configured in any mapper under this configuration -->
+        <!--该配置影响所有映射器红配置缓存的全局开关 value值true和false-->
         <setting name="cacheEnabled" value="false"/>
-        <!-- Sets the number of seconds the driver will wait for a response from the database -->
+        <!--设置超时时间，他决定驱动等待数据库响应的秒数-->
         <setting name="defaultStatementTimeout" value="5"/>
         <!--开启驼峰命名法-->
         <setting name="mapUnderscoreToCamelCase" value="true"/>
-        <!-- Allows JDBC support for generated keys. A compatible driver is required.
-        This setting forces generated keys to be used if set to true,
-         as some drivers deny compatibility but still work -->
+        <!-- 允许JDBC支持自动生成主键。 需要兼容的驱动程序。
+         如果设置为true，则这个设置使用自动生成逐渐，
+尽管一些驱动不能兼容但仍可以正常工作 -->
         <setting name="useGeneratedKeys" value="true"/>
 
     </settings>
@@ -19,8 +19,19 @@
     <!-- Continue editing here -->
     <typeAliases>
         <!-- 设置别名,代表着pojo.Role这个类，这样定义后，在Mybatis上下文中就可以使用别名取代替全限定名了 -->
-        <typeAlias type="pojo.Role" alias="role"></typeAlias>
+        <!--<typeAlias type="pojo.Role" alias="role"></typeAlias>-->
+        <package name="pojo"/>
     </typeAliases>
+
+    <typeHandlers>
+        <typeHandler handler="tool.MyTypeHandler" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <typeHandler handler="tool.SexEnumTypeHandler" javaType="pojo.SexEnum" jdbcType="VARCHAR"/>
+    </typeHandlers>
+    <objectFactory type="tool.MyObjectFactory">
+        <property name="prop1" value="value1"></property>
+    </objectFactory>
+
+
     <!--数据库环境-->
     <environments default="development">
         <environment id="development">
@@ -28,16 +39,20 @@
 
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://localhost:3306/ssm?serverTimezone=UTC"/>
+                <property name="url" value="jdbc:mysql://47.107.158.197:3306/ssm?serverTimezone=UTC"/>
                 <property name="username" value="root"/>
-                <property name="password" value="123456"/>
+                <property name="password" value="xiao528037"/>
 
             </dataSource>
         </environment>
     </environments>
+
+
     <!--映射文件-->
     <mappers>
+
         <mapper resource="mapper/RoleMapper.xml"></mapper>
+        <mapper resource="mapper/UserMapper.xml"></mapper>
     </mappers>
 
 </configuration>

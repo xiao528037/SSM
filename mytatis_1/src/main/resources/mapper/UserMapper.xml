@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="dao.UserMapper">
+    <resultMap id="userMapper" type="user">
+        <result property="id" column="id"/>
+        <result property="userName" column="user_name"/>
+        <result property="passWord" column="user_name"/>
+        <result property="sex" column="sex" typeHandler="tool.SexEnumTypeHandler"/>
+        <result property="mobile" column="mobile"/>
+        <result property="tel" column="tel"/>
+        <result property="email" column="email"/>
+        <result property="note" column="note"/>
+    </resultMap>
+    <insert id="insertUser" parameterType="user">
+        insert into t_user(user_name,pass_word,sex,mobile,tel,email,note)
+        values (#{userName},#{passWord},#{sex},#{mobile},#{tel},#{email},#{note})
+    </insert>
+    <select id="getUser" resultMap="userMapper" parameterType="java.lang.Long">
+        select * from t_user where id=#{id}
+    </select>
+</mapper>
